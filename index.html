@@ -361,3 +361,405 @@
   </style>
 </head>
 <body>
+  <div class="app-shell">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">AE</div>
+        <div>
+          <div class="brand-title">Afghan Emigration</div>
+          <div class="brand-subtitle">
+            A systems view of migration from Afghanistan to Australia.
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="nav-label">Navigation</div>
+        <nav class="nav" id="nav">
+          <div class="nav-item active" data-section="overview">
+            🏠 Overview <span class="pill">Intro</span>
+          </div>
+          <div class="nav-item" data-section="pushpull">
+            ⚖️ Push & Pull <span class="pill">Drivers</span>
+          </div>
+          <div class="nav-item" data-section="journey">
+            🧭 Journey <span class="pill">Route</span>
+          </div>
+          <div class="nav-item" data-section="jobs">
+            💼 Jobs <span class="pill">Demand</span>
+          </div>
+          <div class="nav-item" data-section="qol">
+            📊 Quality of Life <span class="pill">Compare</span>
+          </div>
+          <div class="nav-item" data-section="story">
+            🧩 Story <span class="pill">Choices</span>
+          </div>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        “Migration is shaped by pressure, opportunity, and human decisions.”
+        <br><br>
+        <strong>Project:</strong> HASS – Afghanistan → Australia
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+      <!-- HEADER -->
+      <header class="main-header">
+        <div class="main-title">Complex Systems of Emigration</div>
+        <div class="main-subtitle">
+          Explore how conflict, opportunity, policy, and personal choices interact in Afghan migration to Australia.
+        </div>
+      </header>
+
+      <!-- BODY -->
+      <section class="main-body">
+
+        <!-- ===========================
+             OVERVIEW SECTION
+        ============================ -->
+        <div class="section active" id="section-overview">
+          <div class="grid">
+
+            <!-- CARD 1 -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">System Overview</div>
+                <div class="card-subtitle">
+                  Afghanistan → Transit → Australia
+                </div>
+              </div>
+
+              <!-- EDIT THIS TEXT -->
+              <div class="text-block">
+                This interactive model treats migration as a <strong>complex system</strong>.
+                Push factors in Afghanistan combine with pull factors in Australia,
+                while the journey itself adds uncertainty, risk, and opportunity.
+              </div>
+
+              <div class="divider"></div>
+
+              <div class="text-block text-muted">
+                You can edit this section to summarise your research question or
+                focus area (e.g., Hazara migration, women’s rights, labour shortages).
+              </div>
+            </div>
+
+            <!-- CARD 2 -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">How to Use This Model</div>
+                <div class="card-subtitle">Each section reveals a different layer.</div>
+              </div>
+
+              <div class="text-block">
+                • Push & Pull Factors — click items to explore drivers  
+                • Journey — follow the migration route  
+                • Jobs — see how skills match Australia’s needs  
+                • Quality of Life — compare indicators  
+                • Story — make choices as a migrant  
+              </div>
+
+              <div class="divider"></div>
+
+              <div class="text-block text-muted">
+                Add your own thesis or argument here.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ===========================
+             PUSH & PULL SECTION
+        ============================ -->
+        <div class="section" id="section-pushpull">
+          <div class="grid">
+
+            <!-- LEFT CARD -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Push & Pull Factors</div>
+                <div class="card-subtitle">Click a factor to explore it.</div>
+              </div>
+
+              <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 16px;">
+
+                <!-- PUSH -->
+                <div>
+                  <div class="text-muted" style="margin-bottom:6px;">Push Factors (Afghanistan)</div>
+
+                  <div class="factor-item" data-type="push" data-key="conflict">
+                    <div class="factor-item-title">Conflict & insecurity</div>
+                    <div class="factor-item-body">Violence, instability, persecution.</div>
+                  </div>
+
+                  <div class="factor-item" data-type="push" data-key="economy">
+                    <div class="factor-item-title">Economic collapse</div>
+                    <div class="factor-item-body">Unemployment, low wages.</div>
+                  </div>
+
+                  <div class="factor-item" data-type="push" data-key="rights">
+                    <div class="factor-item-title">Human rights restrictions</div>
+                    <div class="factor-item-body">Limits on women & minorities.</div>
+                  </div>
+                </div>
+
+                <!-- PULL -->
+                <div>
+                  <div class="text-muted" style="margin-bottom:6px;">Pull Factors (Australia)</div>
+
+                  <div class="factor-item" data-type="pull" data-key="safety">
+                    <div class="factor-item-title">Safety & stability</div>
+                    <div class="factor-item-body">Rule of law, low violence.</div>
+                  </div>
+
+                  <div class="factor-item" data-type="pull" data-key="jobs">
+                    <div class="factor-item-title">Jobs & skills demand</div>
+                    <div class="factor-item-body">Shortages in key industries.</div>
+                  </div>
+
+                  <div class="factor-item" data-type="pull" data-key="services">
+                    <div class="factor-item-title">Education & services</div>
+                    <div class="factor-item-body">Healthcare, schools, support.</div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="divider"></div>
+
+              <div class="factor-detail">
+                <strong>System Insight:</strong>
+                <div id="factorDetailText" class="text-muted" style="margin-top:6px;">
+                  Select a factor to see how it interacts with the system.
+                </div>
+              </div>
+            </div>
+
+            <!-- RIGHT CARD -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Complexity Note</div>
+                <div class="card-subtitle">Push & pull forces interact.</div>
+              </div>
+
+              <div class="text-block text-muted">
+                No single factor causes migration. Conflict, economy, rights,
+                safety, and opportunity combine to shape decisions.
+              </div>
+
+              <div class="divider"></div>
+
+              <div class="text-block text-muted">
+                You can rewrite this card with your own analysis.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ===========================
+             JOURNEY SECTION
+        ============================ -->
+        <div class="section" id="section-journey">
+          <div class="grid">
+
+            <!-- TIMELINE CARD -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Migration Journey</div>
+                <div class="card-subtitle">Stages from Afghanistan to Australia.</div>
+              </div>
+
+              <div class="text-block">
+                <strong>Departure:</strong> Leaving due to danger or lack of opportunity.  
+                <br><strong>Transit:</strong> Waiting, uncertainty, bureaucracy.  
+                <br><strong>Arrival:</strong> Safety but new challenges.  
+                <br><strong>Settlement:</strong> Long-term integration.
+              </div>
+            </div>
+
+            <!-- COMMENTARY CARD -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Your Commentary</div>
+                <div class="card-subtitle">Edit this to add your analysis.</div>
+              </div>
+
+              <div class="text-block text-muted">
+                You can describe how risk changes at each stage, or how policies
+                shape who can migrate.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ===========================
+             JOBS SECTION
+        ============================ -->
+        <div class="section" id="section-jobs">
+          <div class="grid">
+
+            <!-- JOB SELECTOR -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Jobs & Skills Matcher</div>
+                <div class="card-subtitle">Select a job category.</div>
+              </div>
+
+              <label class="text-muted" for="jobSelect">Choose a job:</label>
+              <select id="jobSelect" style="margin-top:6px; padding:8px; border-radius:8px; border:1px solid var(--border); width:100%;">
+                <option value="nursing">Nursing & healthcare</option>
+                <option value="engineering">Engineering</option>
+                <option value="trades">Skilled trades</option>
+                <option value="it">Information technology</option>
+                <option value="education">Teaching & education</option>
+              </select>
+
+              <div id="jobMetaRow" style="margin-top:12px; display:flex; gap:6px; flex-wrap:wrap;"></div>
+
+              <div class="divider"></div>
+
+              <div id="jobDetailText" class="text-muted">
+                Select a job to see how it fits Australia’s labour needs.
+              </div>
+            </div>
+
+            <!-- JOB ANALYSIS -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Complexity Note</div>
+                <div class="card-subtitle">Skills + humanitarian needs.</div>
+              </div>
+
+              <div class="text-block text-muted">
+                Many Afghan migrants are both skilled and displaced. Australia’s
+                labour shortages shape migration pathways.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ===========================
+             QUALITY OF LIFE SECTION
+        ============================ -->
+        <div class="section" id="section-qol">
+          <div class="grid">
+
+            <!-- INDICATORS -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Quality of Life Comparison</div>
+                <div class="card-subtitle">Select an indicator.</div>
+              </div>
+
+              <div id="qolIndicatorList" style="display:flex; flex-direction:column; gap:10px;">
+
+                <div class="factor-item qol-indicator active" data-key="safety">
+                  <div class="factor-item-title">Safety & security</div>
+                  <div class="factor-item-body">Violence, conflict, stability.</div>
+                </div>
+
+                <div class="factor-item qol-indicator" data-key="education">
+                  <div class="factor-item-title">Education access</div>
+                  <div class="factor-item-body">Schools, gender access.</div>
+                </div>
+
+                <div class="factor-item qol-indicator" data-key="income">
+                  <div class="factor-item-title">Income & work</div>
+                  <div class="factor-item-body">Wages, employment.</div>
+                </div>
+
+                <div class="factor-item qol-indicator" data-key="health">
+                  <div class="factor-item-title">Health & services</div>
+                  <div class="factor-item-body">Hospitals, clinics.</div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- CHART -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title" id="qolChartTitle">Safety & security</div>
+                <div class="card-subtitle">Stylised comparison.</div>
+              </div>
+
+              <div class="text-block">
+                Afghanistan vs Australia
+              </div>
+
+              <div class="qol-bar-track">
+                <div class="qol-bar-fill" id="qolBarAfghanistan"></div>
+              </div>
+              <div class="text-muted" style="font-size:12px; margin-top:4px;">Afghanistan</div>
+
+              <div class="qol-bar-track" style="margin-top:10px;">
+                <div class="qol-bar-fill" id="qolBarAustralia"></div>
+              </div>
+              <div class="text-muted" style="font-size:12px; margin-top:4px;">Australia</div>
+
+              <div class="divider"></div>
+
+              <div id="qolChartNote" class="text-muted">
+                Afghanistan faces ongoing security challenges, while Australia is relatively safe.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ===========================
+             INTERACTIVE STORY SECTION
+        ============================ -->
+        <div class="section" id="section-story">
+          <div class="grid">
+
+            <!-- STORY PANEL -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Interactive Story</div>
+                <div class="card-subtitle">Make choices as a migrant.</div>
+              </div>
+
+              <div id="storyTitle" class="text-block"><strong>Kabul, late evening</strong></div>
+              <div id="storyMeta" class="text-muted" style="margin-bottom:10px;">Decision point 1</div>
+
+              <div id="storyBody" class="text-block">
+                Your family is deciding whether to leave Afghanistan due to danger and lack of work.
+              </div>
+
+              <div id="storyChoices" style="display:flex; gap:8px; flex-wrap:wrap;"></div>
+
+              <div class="divider"></div>
+
+              <div class="story-log" id="storyLog"></div>
+            </div>
+
+            <!-- REFLECTION -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Reflection</div>
+                <div class="card-subtitle">Edit this to add your thoughts.</div>
+              </div>
+
+              <div class="text-block text-muted">
+                This story shows how push and pull factors interact with personal
+                values, family needs, and limited choices.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+    </main>
+  </div>
