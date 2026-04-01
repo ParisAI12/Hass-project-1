@@ -4,26 +4,29 @@
   <meta charset="UTF-8" />
   <title>Afghan Emigration to Australia – Interactive Atlas</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <style>
+    /* ---------------------------------------------------------
+       APPLE + GOVERNMENT BLUE THEME (SOLID, CLEAN, MODERN)
+       --------------------------------------------------------- */
+
     :root {
-      --bg: #050814;
-      --bg-alt: #0b1022;
-      --accent: #4fd1c5;
-      --accent-soft: rgba(79, 209, 197, 0.15);
-      --accent-strong: #63e6be;
-      --text: #f7fafc;
-      --muted: #a0aec0;
-      --danger: #f56565;
-      --warning: #ecc94b;
-      --border: #2d3748;
+      --bg: #f5f5f7;              /* Apple light grey */
+      --bg-alt: #ffffff;          /* White surfaces */
+      --sidebar: #f2f2f4;         /* Soft grey sidebar */
+      --accent: #0a84ff;          /* Apple blue */
+      --accent-soft: rgba(10,132,255,0.12);
+      --accent-strong: #0060df;   /* Darker blue */
+      --text: #1d1d1f;            /* Apple black */
+      --muted: #6e6e73;           /* Apple muted grey */
+      --border: #d2d2d7;          /* Apple border grey */
       --card-radius: 14px;
-      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.55);
+      --shadow-soft: 0 4px 12px rgba(0,0,0,0.08);
       --transition-fast: 0.18s ease-out;
       --transition-med: 0.28s ease-out;
-      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
-      --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular,
-        Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+                   "Segoe UI", Roboto, sans-serif;
+      --font-mono: "SF Mono", "JetBrains Mono", monospace;
     }
 
     * {
@@ -34,2166 +37,327 @@
 
     body {
       font-family: var(--font-sans);
-      background: radial-gradient(circle at top, #1a365d 0, #050814 55%);
+      background: var(--bg);
       color: var(--text);
       min-height: 100vh;
       display: flex;
       overflow: hidden;
     }
 
-    /* Layout */
+    /* ---------------------------------------------------------
+       LAYOUT
+       --------------------------------------------------------- */
 
     .app-shell {
       display: grid;
-      grid-template-columns: 260px minmax(0, 1fr);
+      grid-template-columns: 240px minmax(0, 1fr);
       width: 100%;
       max-width: 1400px;
-      margin: 18px auto;
-      border-radius: 20px;
-      background: linear-gradient(135deg, #050814 0, #050814 40%, #111827 100%);
+      margin: 20px auto;
+      border-radius: 18px;
+      background: var(--bg-alt);
       box-shadow: var(--shadow-soft);
-      border: 1px solid rgba(148, 163, 184, 0.25);
+      border: 1px solid var(--border);
       overflow: hidden;
-      position: relative;
     }
 
-    /* Sidebar */
+    /* ---------------------------------------------------------
+       SIDEBAR
+       --------------------------------------------------------- */
 
     .sidebar {
-      background: radial-gradient(circle at top left, #1a365d 0, #020617 55%);
-      border-right: 1px solid rgba(148, 163, 184, 0.25);
-      padding: 18px 18px 18px 18px;
+      background: var(--sidebar);
+      border-right: 1px solid var(--border);
+      padding: 20px;
       display: flex;
       flex-direction: column;
-      gap: 18px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .sidebar::before {
-      content: "";
-      position: absolute;
-      inset: -40%;
-      background:
-        radial-gradient(circle at 0 0, rgba(79, 209, 197, 0.12) 0, transparent 55%),
-        radial-gradient(circle at 100% 100%, rgba(129, 140, 248, 0.12) 0, transparent 55%);
-      opacity: 0.9;
-      mix-blend-mode: screen;
-      pointer-events: none;
-    }
-
-    .sidebar-inner {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      height: 100%;
+      gap: 20px;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
 
     .brand-logo {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: conic-gradient(
-        from 210deg,
-        #4fd1c5,
-        #63b3ed,
-        #a855f7,
-        #f97316,
-        #4fd1c5
-      );
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: var(--accent);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.9),
-        0 0 25px rgba(79, 209, 197, 0.6);
-      position: relative;
-    }
-
-    .brand-logo::after {
-      content: "";
-      position: absolute;
-      inset: 7px;
-      border-radius: inherit;
-      background: radial-gradient(circle at 30% 0, #1a365d 0, #020617 60%);
-    }
-
-    .brand-logo span {
+      color: white;
       font-family: var(--font-mono);
       font-size: 14px;
-      color: var(--accent-strong);
-      position: relative;
-      z-index: 1;
-    }
-
-    .brand-text {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
+      font-weight: 600;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     }
 
     .brand-title {
       font-size: 15px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: #e2e8f0;
+      font-weight: 600;
     }
 
     .brand-subtitle {
-      font-size: 11px;
+      font-size: 12px;
       color: var(--muted);
       max-width: 180px;
+      line-height: 1.4;
+    }
+
+    .nav-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 6px;
     }
 
     .nav {
       display: flex;
       flex-direction: column;
       gap: 6px;
-      margin-top: 4px;
-    }
-
-    .nav-label {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: #64748b;
-      margin-bottom: 4px;
     }
 
     .nav-item {
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      border: 1px solid transparent;
       display: flex;
       align-items: center;
       gap: 8px;
-      padding: 8px 10px;
-      border-radius: 999px;
-      color: #cbd5f5;
-      font-size: 13px;
-      cursor: pointer;
-      border: 1px solid transparent;
-      transition: background var(--transition-fast),
-        border-color var(--transition-fast), transform var(--transition-fast),
-        box-shadow var(--transition-fast), color var(--transition-fast);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .nav-item span.icon {
-      font-size: 15px;
-      width: 20px;
-      text-align: center;
-    }
-
-    .nav-item span.label {
-      flex: 1;
-    }
-
-    .nav-item span.pill {
-      font-size: 10px;
-      padding: 2px 7px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.8);
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      color: #e2e8f0;
-    }
-
-    .nav-item::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 0 0, rgba(79, 209, 197, 0.18), transparent 55%);
-      opacity: 0;
-      transition: opacity var(--transition-fast);
-      pointer-events: none;
+      transition: var(--transition-fast);
+      color: var(--text);
     }
 
     .nav-item:hover {
-      background: rgba(15, 23, 42, 0.9);
-      border-color: rgba(148, 163, 184, 0.7);
-      transform: translateY(-1px);
-      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.7);
-    }
-
-    .nav-item:hover::before {
-      opacity: 1;
+      background: #e9e9eb;
     }
 
     .nav-item.active {
-      background: linear-gradient(135deg, rgba(79, 209, 197, 0.18), rgba(15, 23, 42, 0.95));
-      border-color: rgba(79, 209, 197, 0.9);
-      color: #f9fafb;
-      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.9),
-        0 0 25px rgba(79, 209, 197, 0.6);
-    }
-
-    .nav-item.active span.pill {
-      background: rgba(15, 23, 42, 0.9);
-      border-color: rgba(79, 209, 197, 0.9);
+      background: var(--accent-soft);
+      border-color: var(--accent);
       color: var(--accent-strong);
-    }
-
-    .sidebar-footer {
-      margin-top: auto;
-      padding-top: 10px;
-      border-top: 1px dashed rgba(148, 163, 184, 0.4);
-      font-size: 11px;
-      color: var(--muted);
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .tagline {
-      font-style: italic;
-      color: #cbd5f5;
-    }
-
-    .meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    .meta-pill {
-      padding: 2px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      background: rgba(15, 23, 42, 0.9);
-      font-size: 10px;
-      color: #e2e8f0;
-    }
-
-    /* Main */
-
-    .main {
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      background: radial-gradient(circle at top right, #1e293b 0, #020617 55%);
-    }
-
-    .main-header {
-      padding: 16px 22px 10px;
-      border-bottom: 1px solid rgba(148, 163, 184, 0.25);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .main-title-block {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .main-title {
-      font-size: 20px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #e5e7eb;
-    }
-
-    .main-subtitle {
-      font-size: 12px;
-      color: var(--muted);
-      max-width: 420px;
-    }
-
-    .main-controls {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .chip {
-      padding: 4px 9px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      background: rgba(15, 23, 42, 0.9);
-      font-size: 11px;
-      color: #e2e8f0;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .chip span.dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--accent-strong);
-      box-shadow: 0 0 10px rgba(79, 209, 197, 0.9);
-    }
-
-    .chip.danger span.dot {
-      background: var(--danger);
-      box-shadow: 0 0 10px rgba(248, 113, 113, 0.9);
-    }
-
-    .chip.warning span.dot {
-      background: var(--warning);
-      box-shadow: 0 0 10px rgba(251, 191, 36, 0.9);
-    }
-
-    .btn-ghost {
-      padding: 5px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      background: rgba(15, 23, 42, 0.9);
-      color: #e2e8f0;
-      font-size: 11px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: background var(--transition-fast),
-        border-color var(--transition-fast), transform var(--transition-fast),
-        box-shadow var(--transition-fast);
-    }
-
-    .btn-ghost:hover {
-      background: rgba(15, 23, 42, 1);
-      border-color: rgba(79, 209, 197, 0.9);
-      transform: translateY(-1px);
-      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.7);
-    }
-
-    .btn-ghost span.icon {
-      font-size: 13px;
-    }
-
-    .main-body {
-      padding: 16px 22px 18px;
-      overflow-y: auto;
-      position: relative;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.1fr);
-      gap: 16px;
-      align-items: flex-start;
-    }
-
-    .card {
-      background: radial-gradient(circle at top left, #111827 0, #020617 60%);
-      border-radius: var(--card-radius);
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
-      padding: 14px 14px 12px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: -40%;
-      background:
-        radial-gradient(circle at 0 0, rgba(79, 209, 197, 0.12) 0, transparent 55%),
-        radial-gradient(circle at 100% 100%, rgba(129, 140, 248, 0.12) 0, transparent 55%);
-      opacity: 0.7;
-      mix-blend-mode: screen;
-      pointer-events: none;
-    }
-
-    .card-inner {
-      position: relative;
-      z-index: 1;
-    }
-
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-
-    .card-title {
-      font-size: 14px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #e5e7eb;
-    }
-
-    .card-subtitle {
-      font-size: 11px;
-      color: var(--muted);
-    }
-
-    .badge {
-      font-size: 10px;
-      padding: 2px 7px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      background: rgba(15, 23, 42, 0.9);
-      color: #e2e8f0;
-    }
-
-    .badge.accent {
-      border-color: rgba(79, 209, 197, 0.9);
-      color: var(--accent-strong);
-    }
-
-    .badge.muted {
-      color: var(--muted);
-    }
-
-    .pill-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 8px;
     }
 
     .pill {
       font-size: 10px;
-      padding: 3px 8px;
+      padding: 2px 6px;
       border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      background: rgba(15, 23, 42, 0.9);
-      color: #e2e8f0;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
+      background: #e5e5ea;
+      color: var(--muted);
     }
 
-    .pill span.dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: rgba(148, 163, 184, 0.9);
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.4;
     }
 
-    .pill.accent span.dot {
-      background: var(--accent-strong);
+    /* ---------------------------------------------------------
+       MAIN AREA
+       --------------------------------------------------------- */
+
+    .main {
+      background: var(--bg-alt);
+      display: flex;
+      flex-direction: column;
     }
 
-    .pill.danger span.dot {
-      background: var(--danger);
+    .main-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      background: #fafafa;
     }
 
-    .pill.warning span.dot {
-      background: var(--warning);
+    .main-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .main-subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      max-width: 500px;
+      line-height: 1.4;
+    }
+
+    .main-body {
+      padding: 20px 24px;
+      overflow-y: auto;
+    }
+
+    /* ---------------------------------------------------------
+       CARDS
+       --------------------------------------------------------- */
+
+    .card {
+      background: #ffffff;
+      border-radius: var(--card-radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      padding: 16px;
+    }
+
+    .card-header {
+      margin-bottom: 10px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .card-subtitle {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .badge {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+      border: 1px solid var(--accent);
     }
 
     .text-block {
-      font-size: 12px;
-      color: #e5e7eb;
+      font-size: 13px;
       line-height: 1.6;
-      margin-bottom: 8px;
+      color: var(--text);
+      margin-bottom: 10px;
     }
 
     .text-muted {
       color: var(--muted);
     }
 
-    .text-small {
-      font-size: 11px;
-    }
-
     .divider {
       height: 1px;
-      background: linear-gradient(
-        to right,
-        transparent,
-        rgba(148, 163, 184, 0.7),
-        transparent
-      );
-      margin: 8px 0;
-      opacity: 0.7;
+      background: var(--border);
+      margin: 12px 0;
     }
 
-    /* Push/Pull Factors */
+    /* ---------------------------------------------------------
+       GRID LAYOUTS
+       --------------------------------------------------------- */
 
-    .factor-grid {
+    .grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 8px;
-      margin-top: 6px;
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+      gap: 20px;
     }
 
-    .factor-column-title {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: #94a3b8;
-      margin-bottom: 4px;
-    }
-
-    .factor-column-title span {
-      font-size: 10px;
-      padding: 2px 6px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      margin-left: 6px;
-      color: #e2e8f0;
-    }
-
-    .factor-list {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
+    /* ---------------------------------------------------------
+       FACTOR ITEMS (Push/Pull)
+       --------------------------------------------------------- */
 
     .factor-item {
+      background: #f9f9fb;
+      border: 1px solid var(--border);
       border-radius: 10px;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      background: rgba(15, 23, 42, 0.9);
-      padding: 6px 7px;
-      font-size: 11px;
+      padding: 10px;
       cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: border-color var(--transition-fast),
-        background var(--transition-fast), transform var(--transition-fast),
-        box-shadow var(--transition-fast);
-    }
-
-    .factor-item::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 0 0, rgba(79, 209, 197, 0.18), transparent 55%);
-      opacity: 0;
-      transition: opacity var(--transition-fast);
-      pointer-events: none;
+      transition: var(--transition-fast);
     }
 
     .factor-item:hover {
-      border-color: rgba(79, 209, 197, 0.9);
-      background: rgba(15, 23, 42, 1);
-      transform: translateY(-1px);
-      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.7);
-    }
-
-    .factor-item:hover::before {
-      opacity: 1;
-    }
-
-    .factor-item-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 2px;
+      background: #eef6ff;
+      border-color: var(--accent);
     }
 
     .factor-item-title {
-      font-weight: 500;
-      color: #e5e7eb;
-    }
-
-    .factor-item-tag {
-      font-size: 9px;
-      padding: 1px 6px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      color: #e2e8f0;
+      font-weight: 600;
+      font-size: 13px;
     }
 
     .factor-item-body {
-      font-size: 10px;
+      font-size: 12px;
       color: var(--muted);
-    }
-
-    .factor-item[data-type="push"] .factor-item-tag {
-      border-color: rgba(248, 113, 113, 0.9);
-      color: #fecaca;
-    }
-
-    .factor-item[data-type="pull"] .factor-item-tag {
-      border-color: rgba(56, 189, 248, 0.9);
-      color: #bae6fd;
+      margin-top: 4px;
     }
 
     .factor-detail {
-      margin-top: 8px;
-      padding: 7px 8px;
+      background: #f9f9fb;
+      border: 1px dashed var(--border);
       border-radius: 10px;
-      border: 1px dashed rgba(148, 163, 184, 0.7);
-      background: rgba(15, 23, 42, 0.9);
-      font-size: 11px;
-      color: #e5e7eb;
-      min-height: 40px;
+      padding: 12px;
+      font-size: 13px;
+      color: var(--text);
     }
 
-    .factor-detail-title {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: #94a3b8;
-      margin-bottom: 4px;
-    }
-
-    /* Journey Timeline */
-
-    .timeline {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-top: 4px;
-    }
-
-    .timeline-step {
-      display: grid;
-      grid-template-columns: 18px minmax(0, 1fr);
-      gap: 8px;
-      position: relative;
-    }
-
-    .timeline-marker {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2px;
-    }
-
-    .timeline-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      border: 2px solid rgba(148, 163, 184, 0.9);
-      background: #020617;
-      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.9),
-        0 0 12px rgba(79, 209, 197, 0.7);
-    }
-
-    .timeline-line {
-      flex: 1;
-      width: 2px;
-      background: linear-gradient(
-        to bottom,
-        rgba(148, 163, 184, 0.9),
-        transparent
-      );
-      opacity: 0.7;
-    }
-
-    .timeline-content {
-      border-radius: 10px;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      background: rgba(15, 23, 42, 0.9);
-      padding: 6px 8px;
-      font-size: 11px;
-    }
-
-    .timeline-title-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 2px;
-    }
-
-    .timeline-title {
-      font-weight: 500;
-      color: #e5e7eb;
-    }
-
-    .timeline-meta {
-      font-size: 9px;
-      color: var(--muted);
-    }
-
-    .timeline-body {
-      color: var(--muted);
-    }
-
-    /* Jobs */
-
-    .jobs-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
-      gap: 8px;
-      margin-top: 4px;
-    }
-
-    .jobs-select {
-      width: 100%;
-      padding: 6px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      background: rgba(15, 23, 42, 0.9);
-      color: #e5e7eb;
-      font-size: 11px;
-      outline: none;
-      appearance: none;
-      background-image: linear-gradient(45deg, transparent 50%, #94a3b8 50%),
-        linear-gradient(135deg, #94a3b8 50%, transparent 50%);
-      background-position: calc(100% - 14px) 9px, calc(100% - 9px) 9px;
-      background-size: 5px 5px, 5px 5px;
-      background-repeat: no-repeat;
-    }
-
-    .jobs-select:focus {
-      border-color: rgba(79, 209, 197, 0.9);
-      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.9),
-        0 0 18px rgba(79, 209, 197, 0.7);
-    }
-
-    .jobs-meta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 6px;
-    }
-
-    .jobs-meta-pill {
-      font-size: 10px;
-      padding: 2px 7px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      background: rgba(15, 23, 42, 0.9);
-      color: #e2e8f0;
-    }
-
-    .jobs-meta-pill.accent {
-      border-color: rgba(79, 209, 197, 0.9);
-      color: var(--accent-strong);
-    }
-
-    .jobs-detail {
-      border-radius: 10px;
-      border: 1px dashed rgba(148, 163, 184, 0.7);
-      background: rgba(15, 23, 42, 0.9);
-      padding: 7px 8px;
-      font-size: 11px;
-      color: #e5e7eb;
-      min-height: 40px;
-    }
-
-    .jobs-detail-title {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: #94a3b8;
-      margin-bottom: 4px;
-    }
-
-    /* Quality of Life */
-
-    .qol-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
-      gap: 8px;
-      margin-top: 4px;
-    }
-
-    .qol-indicator-list {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .qol-indicator {
-      border-radius: 10px;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      background: rgba(15, 23, 42, 0.9);
-      padding: 6px 7px;
-      font-size: 11px;
-      cursor: pointer;
-      transition: border-color var(--transition-fast),
-        background var(--transition-fast), transform var(--transition-fast),
-        box-shadow var(--transition-fast);
-    }
-
-    .qol-indicator:hover {
-      border-color: rgba(79, 209, 197, 0.9);
-      background: rgba(15, 23, 42, 1);
-      transform: translateY(-1px);
-      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.7);
-    }
-
-    .qol-indicator.active {
-      border-color: rgba(79, 209, 197, 0.9);
-      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.9),
-        0 0 18px rgba(79, 209, 197, 0.7);
-    }
-
-    .qol-indicator-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 2px;
-    }
-
-    .qol-indicator-title {
-      font-weight: 500;
-      color: #e5e7eb;
-    }
-
-    .qol-indicator-tag {
-      font-size: 9px;
-      padding: 1px 6px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      color: #e2e8f0;
-    }
-
-    .qol-indicator-body {
-      font-size: 10px;
-      color: var(--muted);
-    }
-
-    .qol-chart {
-      border-radius: 10px;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      background: radial-gradient(circle at top, #111827 0, #020617 60%);
-      padding: 8px 9px;
-      font-size: 11px;
-      color: #e5e7eb;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .qol-chart-bars {
-      margin-top: 6px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .qol-bar-row {
-      display: grid;
-      grid-template-columns: 70px minmax(0, 1fr);
-      gap: 6px;
-      align-items: center;
-    }
-
-    .qol-bar-label {
-      font-size: 10px;
-      color: var(--muted);
-    }
+    /* ---------------------------------------------------------
+       QUALITY OF LIFE BARS
+       --------------------------------------------------------- */
 
     .qol-bar-track {
-      height: 8px;
+      background: #e5e5ea;
       border-radius: 999px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      overflow: hidden;
+      height: 8px;
       position: relative;
+      overflow: hidden;
     }
 
     .qol-bar-fill {
-      position: absolute;
-      inset: 0;
+      background: var(--accent);
+      height: 100%;
       width: 0%;
       border-radius: inherit;
-      background: linear-gradient(90deg, #4fd1c5, #63b3ed, #a855f7);
-      box-shadow: 0 0 18px rgba(79, 209, 197, 0.7);
-      transition: width var(--transition-med);
+      transition: width 0.3s ease;
     }
 
-    .qol-chart-note {
-      margin-top: 6px;
-      font-size: 10px;
-      color: var(--muted);
-    }
-
-    /* Interactive Story */
-
-    .story-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
-      gap: 8px;
-      margin-top: 4px;
-    }
-
-    .story-panel {
-      border-radius: 10px;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      background: rgba(15, 23, 42, 0.9);
-      padding: 8px 9px;
-      font-size: 11px;
-      color: #e5e7eb;
-      min-height: 80px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .story-title-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .story-title {
-      font-weight: 500;
-      color: #e5e7eb;
-    }
-
-    .story-meta {
-      font-size: 9px;
-      color: var(--muted);
-    }
-
-    .story-body {
-      line-height: 1.6;
-    }
-
-    .story-choices {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 4px;
-    }
+    /* ---------------------------------------------------------
+       STORY CHOICES
+       --------------------------------------------------------- */
 
     .story-choice {
-      padding: 4px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      background: rgba(15, 23, 42, 0.9);
-      color: #e2e8f0;
-      font-size: 10px;
+      background: #f9f9fb;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 6px 10px;
+      font-size: 12px;
       cursor: pointer;
-      transition: background var(--transition-fast),
-        border-color var(--transition-fast), transform var(--transition-fast),
-        box-shadow var(--transition-fast);
+      transition: var(--transition-fast);
     }
 
     .story-choice:hover {
-      border-color: rgba(79, 209, 197, 0.9);
-      background: rgba(15, 23, 42, 1);
-      transform: translateY(-1px);
-      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.7);
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent-strong);
     }
 
     .story-log {
+      background: #f9f9fb;
+      border: 1px dashed var(--border);
       border-radius: 10px;
-      border: 1px dashed rgba(148, 163, 184, 0.7);
-      background: rgba(15, 23, 42, 0.9);
-      padding: 7px 8px;
-      font-size: 10px;
+      padding: 10px;
+      font-size: 12px;
       color: var(--muted);
-      max-height: 120px;
+      max-height: 140px;
       overflow-y: auto;
     }
 
-    .story-log-entry {
-      margin-bottom: 4px;
-    }
-
-    .story-log-entry span.label {
-      color: #e5e7eb;
-    }
-
-    /* Sections */
+    /* ---------------------------------------------------------
+       SECTIONS
+       --------------------------------------------------------- */
 
     .section {
       display: none;
-      animation: fadeIn 0.25s ease-out;
     }
 
     .section.active {
       display: block;
     }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(4px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Responsive */
-
-    @media (max-width: 960px) {
-      body {
-        overflow: auto;
-      }
-
-      .app-shell {
-        grid-template-columns: minmax(0, 1fr);
-        margin: 0;
-        border-radius: 0;
-      }
-
-      .sidebar {
-        border-right: none;
-        border-bottom: 1px solid rgba(148, 163, 184, 0.25);
-      }
-
-      .grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .jobs-layout,
-      .qol-layout,
-      .story-layout {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
   </style>
 </head>
 <body>
-  <div class="app-shell">
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-      <div class="sidebar-inner">
-        <div class="brand">
-          <div class="brand-logo">
-            <span>AE</span>
-          </div>
-          <div class="brand-text">
-            <div class="brand-title">Afghan Emigration</div>
-            <div class="brand-subtitle">
-              Flows, forces, and futures between Afghanistan and Australia.
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div class="nav-label">Navigation</div>
-          <nav class="nav" id="nav">
-            <!-- NOTE: you can rename labels, but keep data-section ids in sync with sections below -->
-            <div class="nav-item active" data-section="overview">
-              <span class="icon">🏠</span>
-              <span class="label">Overview</span>
-              <span class="pill">Intro</span>
-            </div>
-            <div class="nav-item" data-section="pushpull">
-              <span class="icon">⚖️</span>
-              <span class="label">Push &amp; Pull Factors</span>
-              <span class="pill">Drivers</span>
-            </div>
-            <div class="nav-item" data-section="journey">
-              <span class="icon">🧭</span>
-              <span class="label">Migration Journey</span>
-              <span class="pill">Route</span>
-            </div>
-            <div class="nav-item" data-section="jobs">
-              <span class="icon">💼</span>
-              <span class="label">Jobs &amp; Skills</span>
-              <span class="pill">Demand</span>
-            </div>
-            <div class="nav-item" data-section="qol">
-              <span class="icon">📊</span>
-              <span class="label">Quality of Life</span>
-              <span class="pill">Compare</span>
-            </div>
-            <div class="nav-item" data-section="story">
-              <span class="icon">🧩</span>
-              <span class="label">Interactive Story</span>
-              <span class="pill">Choices</span>
-            </div>
-          </nav>
-        </div>
-
-        <div class="sidebar-footer">
-          <div class="tagline">
-            “Migration is never just movement; it’s a negotiation with risk, hope, and belonging.”
-          </div>
-          <div class="meta">
-            <div class="meta-pill">Project: HASS – Afghanistan → Australia</div>
-            <div class="meta-pill">Built with HTML, CSS, JS</div>
-          </div>
-        </div>
-      </div>
-    </aside>
-
-    <!-- MAIN -->
-    <main class="main">
-      <header class="main-header">
-        <div class="main-title-block">
-          <div class="main-title">Complex Systems of Emigration</div>
-          <div class="main-subtitle">
-            An interactive exploration of how conflict, policy, opportunity, and human decisions intertwine in Afghan emigration to Australia.
-          </div>
-        </div>
-        <div class="main-controls">
-          <div class="chip">
-            <span class="dot"></span>
-            Live model of push–pull dynamics
-          </div>
-          <div class="chip warning">
-            <span class="dot"></span>
-            Editable content – customise for your assignment
-          </div>
-          <button class="btn-ghost" id="resetStoryBtn">
-            <span class="icon">🔄</span>
-            Reset Story
-          </button>
-        </div>
-      </header>
-
-      <section class="main-body">
-        <!-- OVERVIEW SECTION -->
-        <div class="section active" id="section-overview">
-          <div class="grid">
-            <div class="card">
-              <div class="card-inner">
-                <div class="card-header">
-                  <div>
-                    <div class="card-title">System Overview</div>
-                    <div class="card-subtitle">
-                      Afghanistan → Transit → Australia, shaped by push &amp; pull forces.
-                    </div>
-                  </div>
-                  <span class="badge accent">Start here</span>
-                </div>
-
-                <!-- EDIT THIS TEXT: high-level explanation -->
-                <div class="text-block">
-                  This interactive page treats emigration as a
-                  <strong>complex system</strong> rather than a simple one-way decision.
-                  Each section represents a different part of that system:
-                  <span class="text-muted">
-                    structural pressures in Afghanistan, opportunities in Australia,
-                    the journey in between, and the personal choices migrants make.
-                  </span>
-                </div>
-
-                <div class="divider"></div>
-
-                <div class="pill-row">
-                  <div class="pill">
-                    <span class="dot"></span>
-                    Conflict &amp; insecurity
-                  </div>
-                  <div class="pill">
-                    <span class="dot"></span>
-                    Economic opportunity
-                  </div>
-                  <div class="pill">
-                    <span class="dot"></span>
-                    Policy &amp; borders
-                  </div>
-                  <div class="pill">
-                    <span class="dot"></span>
-                    Human agency
-                  </div>
-                </div>
-
-                <!-- EDIT THIS TEXT: describe your research focus -->
-                <div class="text-block text-small text-muted">
-                  You can customise this overview to match your research question.
-                  For example: focus on a specific time period, a particular group
-                  (e.g. Hazara migrants), or a policy change in Australia.
-                </div>
-              </div>
-            </div>
-
-            <div class="card">
-              <div class="card-inner">
-                <div class="card-header">
-                  <div>
-                    <div class="card-title">How to read this model</div>
-                    <div class="card-subtitle">
-                      Each interaction reveals a different layer of the system.
-                    </div>
-                  </div>
-                  <span class="badge muted">Guide</span>
-                </div>
-
-                <ul class="text-block text-small" style="list-style: none; padding-left: 0; display: flex; flex-direction: column; gap: 4px;">
-                  <li>
-                    <strong>Push &amp; Pull Factors:</strong>
-                    click items to see how conditions in Afghanistan and Australia
-                    interact.
-                  </li>
-                  <li>
-                    <strong>Migration Journey:</strong>
-                    follow the route step-by-step and see how risk and hope change.
-                  </li>
-                  <li>
-                    <strong>Jobs &amp; Skills:</strong>
-                    explore how Australia’s labour needs shape migration pathways.
-                  </li>
-                  <li>
-                    <strong>Quality of Life:</strong>
-                    compare indicators like safety, education, and income.
-                  </li>
-                  <li>
-                    <strong>Interactive Story:</strong>
-                    step into the role of a migrant making difficult decisions.
-                  </li>
-                </ul>
-
-                <div class="divider"></div>
-
-                <!-- EDIT THIS TEXT: add your own reflection or thesis statement -->
-                <div class="text-block text-small">
-                  <strong>Your thesis space:</strong>
-                  <span class="text-muted">
-                    Here you can write a one–two sentence argument about Afghan
-                    emigration to Australia (e.g. “While conflict pushes Afghans
-                    to leave, Australia’s demand for skilled workers and relative
-                    safety pulls them into a system that is both hopeful and
-                    unequal.”).
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- PUSH & PULL SECTION -->
-        <div class="section" id="section-pushpull">
-          <div class="grid">
-            <div class="card">
-              <div class="card-inner">
-                <div class="card-header">
-                  <div>
-                    <div class="card-title">Push &amp; Pull Factors</div>
-                    <div class="card-subtitle">
-                      Click a factor to see how it shapes the decision to leave or arrive.
-                    </div>
-                  </div>
-                  <span class="badge accent">Interactive</span>
-                </div>
-
-                <div class="factor-grid">
-                  <div>
-                    <div class="factor-column-title">
-                      Push factors
-                      <span>Afghanistan</span>
-                    </div>
-                    <div class="factor-list" id="pushList">
-                      <!-- EDIT THESE ITEMS: push factors -->
-                      <div class="factor-item" data-type="push" data-key="conflict">
-                        <div class="factor-item-header">
-                          <div class="factor-item-title">Conflict &amp; insecurity</div>
-                          <div class="factor-item-tag">High pressure</div>
-                        </div>
-                        <div class="factor-item-body">
-                          Ongoing violence, political instability, and targeted persecution.
-                        </div>
-                      </div>
-                      <div class="factor-item" data-type="push" data-key="economy">
-                        <div class="factor-item-header">
-                          <div class="factor-item-title">Economic collapse</div>
-                          <div class="factor-item-tag">Chronic</div>
-                        </div>
-                        <div class="factor-item-body">
-                          Limited jobs, low wages, and fragile markets push people out.
-                        </div>
-                      </div>
-                      <div class="factor-item" data-type="push" data-key="rights">
-                        <div class="factor-item-header">
-                          <div class="factor-item-title">Human rights restrictions</div>
-                          <div class="factor-item-tag">Systemic</div>
-                        </div>
-                        <div class="factor-item-body">
-                          Restrictions on women, minorities, and political dissent.
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <div class="factor-column-title">
-                      Pull factors
-                      <span>Australia</span>
-                    </div>
-                    <div class="factor-list" id="pullList">
-                      <!-- EDIT THESE ITEMS: pull factors -->
-                      <div class="factor-item" data-type="pull" data-key="safety">
-                        <div class="factor-item-header">
-                          <div class="factor-item-title">Safety &amp; stability</div>
-                          <div class="factor-item-tag">Strong pull</div>
-                        </div>
-                        <div class="factor-item-body">
-                          Rule of law, lower violence, and predictable institutions.
-                        </div>
-                      </div>
-                      <div class="factor-item" data-type="pull" data-key="jobs">
-                        <div class="factor-item-header">
-                          <div class="factor-item-title">Jobs &amp; skills demand</div>
-                          <div class="factor-item-tag">Targeted</div>
-                        </div>
-                        <div class="factor-item-body">
-                          Shortages in health, trades, and regional areas attract migrants.
-                        </div>
-                      </div>
-                      <div class="factor-item" data-type="pull" data-key="services">
-                        <div class="factor-item-header">
-                          <div class="factor-item-title">Education &amp; services</div>
-                          <div class="factor-item-tag">Long-term</div>
-                        </div>
-                        <div class="factor-item-body">
-                          Access to schools, healthcare, and social support.
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="factor-detail" id="factorDetail">
-                  <div class="factor-detail-title">System insight</div>
-                  <!-- JS will update this text when you click a factor -->
-                  <div id="factorDetailText" class="text-small text-muted">
-                    Select a push or pull factor to see how it interacts with the rest of the system.
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="card">
-              <div class="card-inner">
-                <div class="card-header">
-                  <div>
-                    <div class="card-title">Complex system note</div>
-                    <div class="card-subtitle">
-                      Push and pull factors don’t act alone—they amplify or cancel each other.
-                    </div>
-                  </div>
-                  <span class="badge muted">Explanation</span>
-                </div>
-
-                <!-- EDIT THIS TEXT: your explanation of complexity -->
-                <div class="text-block text-small">
-                  In a complex system, no single factor “causes” migration. Instead,
-                  <span class="text-muted">
-                    conflict, economic collapse, and rights restrictions combine to
-                    create intense pressure to leave. At the same time, Australia’s
-                    safety, jobs, and services create a strong pull—but only for
-                    those who can access visas, routes, or networks.
-                  </span>
-                </div>
-
-                <div class="divider"></div>
-
-                <div class="text-block text-small">
-                  <strong>Try this:</strong>
-                  <span class="text-muted">
-                    Pick one push factor and one pull factor and write a short
-                    paragraph (in your own words) about how they interact. You can
-                    paste that paragraph here to make this card your own analysis.
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- JOURNEY SECTION -->
-        <div class="section" id="section-journey">
-          <div class="grid">
-            <div class="card">
-              <div class="card-inner">
-                <div class="card-header">
-                  <div>
-                    <div class="card-title">Migration Journey</div>
-                    <div class="card-subtitle">
-                      From Afghanistan to Australia, risk and opportunity change at each step.
-                    </div>
-                  </div>
-                  <span class="badge accent">Timeline</span>
-                </div>
-
-                <div class="timeline">
-                  <!-- EDIT THESE STEPS: journey stages -->
-                  <div class="timeline-step">
-                    <div class="timeline-marker">
-                      <div class="timeline-dot"></div>
-                      <div class="timeline-line"></div>
-                    </div>
-                    <div class="timeline-content">
-                      <div class="timeline-title-row">
-                        <div class="timeline-title">Departure from Afghanistan</div>
-                        <div class="timeline-meta">High push, uncertain pull</div>
-                      </div>
-                      <div class="timeline-body">
-                        Families weigh danger at home against the unknown abroad.
-                        Networks, savings, and smugglers often shape who can leave.
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="timeline-step">
-                    <div class="timeline-marker">
-                      <div class="timeline-dot"></div>
-                      <div class="timeline-line"></div>
-                    </div>
-                    <div class="timeline-content">
-                      <div class="timeline-title-row">
-                        <div class="timeline-title">Transit countries</div>
-                        <div class="timeline-meta">Risk, waiting, and bureaucracy</div>
-                      </div>
-                      <div class="timeline-body">
-                        Migrants may spend months or years in transit, facing
-                        detention, informal work, or refugee status determination.
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="timeline-step">
-                    <div class="timeline-marker">
-                      <div class="timeline-dot"></div>
-                      <div class="timeline-line"></div>
-                    </div>
-                    <div class="timeline-content">
-                      <div class="timeline-title-row">
-                        <div class="timeline-title">Arrival in Australia</div>
-                        <div class="timeline-meta">New safety, new barriers</div>
-                      </div>
-                      <div class="timeline-body">
-                        Visa status, language, and recognition of qualifications
-                        shape how quickly migrants can access work and services.
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="timeline-step">
-                    <div class="timeline-marker">
-                      <div class="timeline-dot"></div>
-                    </div>
-                    <div class="timeline-content">
-                      <div class="timeline-title-row">
-                        <div class="timeline-title">Settlement &amp; belonging</div>
-                        <div class="timeline-meta">Long-term integration</div>
-                      </div>
-                      <div class="timeline-body">
-                        Over time, migrants build communities, send remittances,
-                        and influence both Afghan and Australian societies.
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-            <div class="card">
-              <div class="card-inner">
-                <div class="card-header">
-                  <div>
-                    <div class="card-title">Your commentary</div>
-                    <div class="card-subtitle">
-                      Use this space to interpret the journey in your own words.
-                    </div>
-                  </div>
-                  <span class="badge muted">Editable</span>
-                </div>
-
-                <!-- EDIT THIS TEXT: your own commentary -->
-                <div class="text-block text-small">
-                  You can rewrite this card as your own analysis of the journey.
-                  For example, you might focus on:
-                </div>
-
-                <ul class="text-block text-small" style="list-style: disc; padding-left: 18px; display: flex; flex-direction: column; gap: 3px;">
-                  <li>
-                    How <span class="text-muted">risk</span> changes at each stage.
-                  </li>
-                  <li>
-                    How <span class="text-muted">Australian policies</span> affect
-                    who can arrive and stay.
-                  </li>
-                  <li>
-                    How <span class="text-muted">family, culture, and identity</span>
-                    are maintained or transformed.
-                  </li>
-                </ul>
-
-                <div class="divider"></div>
-
-                <div class="text-block text-small text-muted">
-                  Tip: if your teacher wants “evidence”, you can add small
-                  references here (e.g. “According to [source], X Afghans arrived
-                  in Australia between 20XX–20XX.”).
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- JOBS SECTION -->
-        <div class="section" id="section-jobs">
-          <div class="grid">
-            <div class="card">
-              <div class="card-inner">
-                <div class="card-header">
-                  <div>
-                    <div class="card-title">Jobs &amp; Skills Matcher</div>
-                    <div class="card-subtitle">
-                      Select a job area to see how it fits Australia’s labour needs.
-                    </div>
-                  </div>
-                  <span class="badge accent">Dynamic</span>
-                </div>
-
-                <div class="jobs-layout">
-                  <div>
-                    <label class="text-small text-muted" for="jobSelect">
-                      Choose a job category:
-                    </label>
-                    <select id="jobSelect" class="jobs-select">
-                      <!-- EDIT OPTIONS: job categories -->
-                      <option value="nursing">Nursing &amp; healthcare</option>
-                      <option value="engineering">Engineering</option>
-                      <option value="trades">Skilled trades</option>
-                      <option value="it">Information technology</option>
-                      <option value="education">Teaching &amp; education</option>
-                    </select>
-
-                    <div class="jobs-meta-row" id="jobMetaRow">
-                      <!-- JS fills this -->
-                    </div>
-                  </div>
-
-                  <div class="jobs-detail">
-                    <div class="jobs-detail-title">Why this job matters</div>
-                    <div id="jobDetailText" class="text-small text-muted">
-                      Select a job category to see how it connects Afghan skills
-                      with Australian labour shortages.
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-            <div class="card">
-              <div class="card-inner">
-                <div class="card-header">
-                  <div>
-                    <div class="card-title">Complexity note</div>
-                    <div class="card-subtitle">
-                      Migration is not just “refugees” – it’s also about skills and economies.
-                    </div>
-                  </div>
-                  <span class="badge muted">Context</span>
-                </div>
-
-                <!-- EDIT THIS TEXT: your explanation of jobs & migration -->
-                <div class="text-block text-small">
-                  Australia’s migration system often distinguishes between
-                  <span class="text-muted">humanitarian</span> and
-                  <span class="text-muted">skilled</span> migrants, but in reality
-                  many Afghans are both: they flee danger and bring valuable skills.
-                </div>
-
-                <div class="divider"></div>
-
-                <div class="text-block text-small text-muted">
-                  You can use this card to argue that migration is not only a
-                  “problem” to be managed, but also a way Australia responds to
-                  labour shortages, especially in health, regional areas, and
-                  critical infrastructure.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- QUALITY OF LIFE SECTION -->
-        <div class="section" id="section-qol">
-          <div class="grid">
-            <div class="card">
-              <div class="card-inner">
-                <div class="card-header">
-                  <div>
-                    <div class="card-title">Quality of Life Comparison</div>
-                    <div class="card-subtitle">
-                      Select an indicator to compare Afghanistan and Australia.
-                    </div>
-                  </div>
-                  <span class="badge accent">Visual</span>
-                </div>
-
-                <div class="qol-layout">
-                  <div>
-                    <div class="qol-indicator-list" id="qolIndicatorList">
-                      <!-- EDIT INDICATORS: labels & descriptions -->
-                      <div class="qol-indicator active" data-key="safety">
-                        <div class="qol-indicator-header">
-                          <div class="qol-indicator-title">Safety &amp; security</div>
-                          <div class="qol-indicator-tag">Core</div>
-                        </div>
-                        <div class="qol-indicator-body">
-                          Risk of violence, conflict, and everyday safety.
-                        </div>
-                      </div>
-                      <div class="qol-indicator" data-key="education">
-                        <div class="qol-indicator-header">
-                          <div class="qol-indicator-title">Education access</div>
-                          <div class="qol-indicator-tag">Future</div>
-                        </div>
-                        <div class="qol-indicator-body">
-                          School enrolment, especially for girls and young people.
-                        </div>
-                      </div>
-                      <div class="qol-indicator" data-key="income">
-                        <div class="qol-indicator-header">
-                          <div class="qol-indicator-title">Income &amp; work</div>
-                          <div class="qol-indicator-tag">Economic</div>
-                        </div>
-                        <div class="qol-indicator-body">
-                          Ability to earn a stable income and avoid poverty.
-                        </div>
-                      </div>
-                      <div class="qol-indicator" data-key="health">
-                        <div class="qol-indicator-header">
-                          <div class="qol-indicator-title">Health &amp; services</div>
-                          <div class="qol-indicator-tag">Wellbeing</div>
-                        </div>
-                        <div class="qol-indicator-body">
-                          Access to hospitals, clinics, and mental health support.
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="qol-chart">
-                    <div class="text-small">
-                      <strong id="qolChartTitle">Safety &amp; security</strong>
-                      <span class="text-muted">
-                        – stylised comparison (not exact data, but directionally accurate).
-                      </span>
-                    </div>
-
-                    <div class="qol-chart-bars">
-                      <div class="qol-bar-row">
-                        <div class="qol-bar-label">Afghanistan</div>
-                        <div class="qol-bar-track">
-                          <div class="qol-bar-fill" id="qolBarAfghanistan"></div>
-                        </div>
-                      </div>
-                      <div class="qol-bar-row">
-                        <div class="qol-bar-label">Australia</div>
-                        <div class="qol-bar-track">
-                          <div class="qol-bar-fill" id="qolBarAustralia"></div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="qol-chart-note" id="qolChartNote">
-                      In terms of safety, Afghanistan scores much lower due to
-                      conflict and instability, while Australia offers a relatively
-                      secure environment.
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-            <div class="card">
-              <div class="card-inner">
-                <div class="card-header">
-                  <div>
-                    <div class="card-title">Interpretation space</div>
-                    <div class="card-subtitle">
-                      Explain what these differences mean for real people.
-                    </div>
-                  </div>
-                  <span class="badge muted">Editable</span>
-                </div>
-
-                <!-- EDIT THIS TEXT: your interpretation -->
-                <div class="text-block text-small">
-                  You can use this card to explain why people might accept the
-                  risks of migration in order to access better education, income,
-                  or safety in Australia.
-                </div>
-
-                <div class="divider"></div>
-
-                <div class="text-block text-small text-muted">
-                  For example: “Even if the journey is dangerous, the difference
-                  in long-term safety and education opportunities can be so large
-                  that families feel they have no real choice but to leave.”
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- INTERACTIVE STORY SECTION -->
-        <div class="section" id="section-story">
-          <div class="grid">
-            <div class="card">
-              <div class="card-inner">
-                <div class="card-header">
-                  <div>
-                    <div class="card-title">Interactive Story</div>
-                    <div class="card-subtitle">
-                      Step into the role of an Afghan migrant making difficult choices.
-                    </div>
-                  </div>
-                  <span class="badge accent">Choices</span>
-                </div>
-
-                <div class="story-layout">
-                  <div class="story-panel">
-                    <div class="story-title-row">
-                      <div class="story-title" id="storyTitle">Kabul, late evening</div>
-                      <div class="story-meta" id="storyMeta">Decision point 1</div>
-                    </div>
-                    <div class="story-body" id="storyBody">
-                      Your family has been discussing leaving Afghanistan for months.
-                      The situation has become more dangerous, and work is scarce.
-                      Tonight, you sit together and decide whether to stay or begin
-                      planning a journey towards Australia.
-                    </div>
-
-                    <div class="story-choices" id="storyChoices">
-                      <!-- JS fills choices -->
-                    </div>
-                  </div>
-
-                  <div class="story-log" id="storyLog">
-                    <!-- JS logs choices -->
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-            <div class="card">
-              <div class="card-inner">
-                <div class="card-header">
-                  <div>
-                    <div class="card-title">Reflection</div>
-                    <div class="card-subtitle">
-                      Use this space to reflect on the story and real-world migration.
-                    </div>
-                  </div>
-                  <span class="badge muted">Editable</span>
-                </div>
-
-                <!-- EDIT THIS TEXT: your reflection -->
-                <div class="text-block text-small">
-                  This story is not meant to represent every Afghan migrant, but
-                  it shows how <span class="text-muted">push factors</span> (like
-                  danger) and <span class="text-muted">pull factors</span> (like
-                  safety and jobs) are filtered through personal values, family
-                  responsibilities, and limited choices.
-                </div>
-
-                <div class="divider"></div>
-
-                <div class="text-block text-small text-muted">
-                  You can rewrite this reflection to match your own perspective,
-                  or to connect the story to specific evidence or case studies
-                  you have researched.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-  </div>
-
-  <script>
-    // -----------------------------
-    // NAVIGATION / SECTION SWITCHING
-    // -----------------------------
-    const navItems = document.querySelectorAll(".nav-item");
-    const sections = document.querySelectorAll(".section");
-
-    navItems.forEach((item) => {
-      item.addEventListener("click", () => {
-        const target = item.getAttribute("data-section");
-
-        navItems.forEach((i) => i.classList.remove("active"));
-        item.classList.add("active");
-
-        sections.forEach((section) => {
-          section.classList.remove("active");
-        });
-
-        const sectionEl = document.getElementById(`section-${target}`);
-        if (sectionEl) {
-          sectionEl.classList.add("active");
-        }
-      });
-    });
-
-    // -----------------------------
-    // PUSH & PULL FACTOR DETAIL LOGIC
-    // -----------------------------
-    const factorDetailText = document.getElementById("factorDetailText");
-
-    // You can customise these explanations to match your research.
-    const factorInsights = {
-      conflict:
-        "Conflict & insecurity in Afghanistan create constant fear and uncertainty. When combined with even a small pull from safer countries, this pressure can make staying feel impossible.",
-      economy:
-        "Economic collapse means that even educated people may not find work. This pushes them to look abroad, especially if they hear about labour shortages in countries like Australia.",
-      rights:
-        "Restrictions on rights—especially for women and minorities—turn everyday life into a struggle. Migration becomes a way to reclaim basic freedoms.",
-      safety:
-        "Australia’s relative safety acts as a strong pull, especially for families with children. However, visas and borders mean that not everyone who wants safety can reach it.",
-      jobs:
-        "Australia’s demand for workers in health, trades, and regional areas can open legal pathways for some migrants, but others remain excluded if their skills aren’t recognised.",
-      services:
-        "Access to education, healthcare, and social services in Australia offers long-term security, making the risks of migration feel more ‘worth it’ for some families.",
-    };
-
-    function handleFactorClick(event) {
-      const item = event.currentTarget;
-      const key = item.getAttribute("data-key");
-      const type = item.getAttribute("data-type");
-
-      const allItems = document.querySelectorAll(".factor-item");
-      allItems.forEach((i) => i.classList.remove("active"));
-      item.classList.add("active");
-
-      const baseText =
-        factorInsights[key] ||
-        "This factor interacts with others in complex ways. You can customise this explanation in the code.";
-
-      const label = type === "push" ? "Push factor" : "Pull factor";
-      factorDetailText.textContent = `[${label}] ${baseText}`;
-    }
-
-    document.querySelectorAll(".factor-item").forEach((item) => {
-      item.addEventListener("click", handleFactorClick);
-    });
-
-    // -----------------------------
-    // JOBS & SKILLS MATCHER
-    // -----------------------------
-    const jobSelect = document.getElementById("jobSelect");
-    const jobMetaRow = document.getElementById("jobMetaRow");
-    const jobDetailText = document.getElementById("jobDetailText");
-
-    // EDIT THIS OBJECT: customise job explanations & tags
-    const jobData = {
-      nursing: {
-        tags: ["High demand", "Regional shortages", "Essential service"],
-        detail:
-          "Australia faces ongoing shortages of nurses, especially in regional and remote areas. Afghan migrants with health backgrounds can fill critical gaps, but may face challenges getting qualifications recognised.",
-      },
-      engineering: {
-        tags: ["Infrastructure", "Skilled migration", "Long-term"],
-        detail:
-          "Engineers are needed for infrastructure, mining, and construction projects. Skilled migration programs often target engineers, but language and licensing requirements can be barriers.",
-      },
-      trades: {
-        tags: ["Construction", "Apprenticeships", "Hands-on"],
-        detail:
-          "Skilled trades like electricians, plumbers, and carpenters are in demand. Migrants with practical experience may still need local certification to work safely and legally.",
-      },
-      it: {
-        tags: ["Digital economy", "Remote work", "Innovation"],
-        detail:
-          "IT skills are globally mobile. Afghan migrants with coding or tech experience may find opportunities in Australia’s growing digital sector, especially if they can connect with networks.",
-      },
-      education: {
-        tags: ["Schools", "Language support", "Community"],
-        detail:
-          "Teachers and education workers support both Australian students and newly arrived migrants. Afghan educators can play a key role in language support and cultural understanding.",
-      },
-    };
-
-    function updateJobView() {
-      const value = jobSelect.value;
-      const data = jobData[value];
-
-      jobMetaRow.innerHTML = "";
-      if (data && data.tags) {
-        data.tags.forEach((tag, index) => {
-          const pill = document.createElement("div");
-          pill.className =
-            "jobs-meta-pill" + (index === 0 ? " accent" : "");
-          pill.textContent = tag;
-          jobMetaRow.appendChild(pill);
-        });
-      }
-
-      jobDetailText.textContent =
-        (data && data.detail) ||
-        "You can customise this explanation in the jobData object.";
-    }
-
-    jobSelect.addEventListener("change", updateJobView);
-    updateJobView();
-
-    // -----------------------------
-    // QUALITY OF LIFE COMPARISON
-    // -----------------------------
-    const qolIndicators = document.querySelectorAll(".qol-indicator");
-    const qolChartTitle = document.getElementById("qolChartTitle");
-    const qolChartNote = document.getElementById("qolChartNote");
-    const qolBarAfghanistan = document.getElementById("qolBarAfghanistan");
-    const qolBarAustralia = document.getElementById("qolBarAustralia");
-
-    // EDIT THIS OBJECT: stylised scores (0–100) + notes
-    const qolData = {
-      safety: {
-        title: "Safety & security",
-        afghanistan: 15,
-        australia: 85,
-        note:
-          "Afghanistan faces ongoing security challenges, while Australia offers relatively low levels of everyday violence and conflict.",
-      },
-      education: {
-        title: "Education access",
-        afghanistan: 30,
-        australia: 90,
-        note:
-          "Access to education—especially for girls—has been heavily restricted in Afghanistan, while Australia provides near-universal schooling.",
-      },
-      income: {
-        title: "Income & work",
-        afghanistan: 25,
-        australia: 80,
-        note:
-          "Many Afghans struggle with unemployment or low wages, whereas Australia offers higher average incomes and more formal jobs.",
-      },
-      health: {
-        title: "Health & services",
-        afghanistan: 35,
-        australia: 88,
-        note:
-          "Health services in Afghanistan are limited and uneven, while Australia has a more accessible healthcare system.",
-      },
-    };
-
-    function updateQolView(key) {
-      const data = qolData[key];
-      if (!data) return;
-
-      qolChartTitle.textContent = data.title;
-      qolChartNote.textContent = data.note;
-
-      // Animate bars
-      requestAnimationFrame(() => {
-        qolBarAfghanistan.style.width = data.afghanistan + "%";
-        qolBarAustralia.style.width = data.australia + "%";
-      });
-    }
-
-    qolIndicators.forEach((indicator) => {
-      indicator.addEventListener("click", () => {
-        qolIndicators.forEach((i) => i.classList.remove("active"));
-        indicator.classList.add("active");
-        const key = indicator.getAttribute("data-key");
-        updateQolView(key);
-      });
-    });
-
-    // Initialise with default
-    updateQolView("safety");
-
-    // -----------------------------
-    // INTERACTIVE STORY ENGINE
-    // -----------------------------
-    const storyTitle = document.getElementById("storyTitle");
-    const storyMeta = document.getElementById("storyMeta");
-    const storyBody = document.getElementById("storyBody");
-    const storyChoices = document.getElementById("storyChoices");
-    const storyLog = document.getElementById("storyLog");
-    const resetStoryBtn = document.getElementById("resetStoryBtn");
-
-    // EDIT THIS OBJECT: story nodes & choices
-    const storyNodes = {
-      start: {
-        title: "Kabul, late evening",
-        meta: "Decision point 1",
-        text:
-          "Your family has been discussing leaving Afghanistan for months. The situation has become more dangerous, and work is scarce. Tonight, you sit together and decide whether to stay or begin planning a journey towards Australia.",
-        choices: [
-          {
-            label: "Begin planning to leave",
-            next: "planRoute",
-            effect:
-              "You decide that staying is too risky. The family begins to gather information about routes and visas.",
-          },
-          {
-            label: "Stay and wait a little longer",
-            next: "stayLonger",
-            effect:
-              "You choose to wait, hoping the situation will improve or a safer option will appear.",
-          },
-        ],
-      },
-      planRoute: {
-        title: "Planning the route",
-        meta: "Decision point 2",
-        text:
-          "You talk to relatives abroad and hear about two main options: trying for a formal visa, or using an irregular route through multiple countries.",
-        choices: [
-          {
-            label: "Apply for a formal visa",
-            next: "formalVisa",
-            effect:
-              "You gather documents and prepare to apply, knowing it may take a long time.",
-          },
-          {
-            label: "Use an irregular route",
-            next: "irregularRoute",
-            effect:
-              "You contact a smuggler, aware that the journey will be dangerous and uncertain.",
-          },
-        ],
-      },
-      stayLonger: {
-        title: "Staying in Kabul",
-        meta: "Decision point 2",
-        text:
-          "Weeks pass. The situation becomes even more unstable, and a close friend leaves for Australia. Your family revisits the decision.",
-        choices: [
-          {
-            label: "Now decide to leave",
-            next: "planRoute",
-            effect:
-              "The increased danger pushes you to finally plan a journey.",
-          },
-          {
-            label: "Stay despite the risks",
-            next: "stayRisk",
-            effect:
-              "You decide to stay, accepting the risks in order to remain close to extended family.",
-          },
-        ],
-      },
-      formalVisa: {
-        title: "Visa process",
-        meta: "Decision point 3",
-        text:
-          "The visa process is slow and complex. You must prove your situation and meet strict criteria.",
-        choices: [
-          {
-            label: "Persist with the process",
-            next: "visaSuccess",
-            effect:
-              "You continue to submit documents and wait, hoping for a positive outcome.",
-          },
-          {
-            label: "Abandon and try irregular route",
-            next: "irregularRoute",
-            effect:
-              "Frustrated by delays, you decide to risk an irregular journey.",
-          },
-        ],
-      },
-      irregularRoute: {
-        title: "On the move",
-        meta: "Decision point 3",
-        text:
-          "You travel through several countries, facing checkpoints, smugglers, and uncertain shelter.",
-        choices: [
-          {
-            label: "Seek help from UN/NGOs",
-            next: "ngoSupport",
-            effect:
-              "You register with an organisation that may help with protection and resettlement.",
-          },
-          {
-            label: "Avoid authorities and keep moving",
-            next: "keepMoving",
-            effect:
-              "You stay hidden, fearing detention or deportation.",
-          },
-        ],
-      },
-      stayRisk: {
-        title: "Living with risk",
-        meta: "Outcome",
-        text:
-          "You remain in Kabul. Some days feel almost normal; others are marked by fear and uncertainty. The push factors remain, but migration feels out of reach.",
-        choices: [],
-      },
-      visaSuccess: {
-        title: "Arrival with a visa",
-        meta: "Outcome",
-        text:
-          "After a long wait, your visa is approved. You arrive in Australia with legal status, but still face challenges of language, work, and belonging.",
-        choices: [],
-      },
-      ngoSupport: {
-        title: "Waiting in transit",
-        meta: "Outcome",
-        text:
-          "With NGO support, you gain some protection but must wait for a resettlement decision. Time stretches, and the future remains uncertain.",
-        choices: [],
-      },
-      keepMoving: {
-        title: "Uncertain arrival",
-        meta: "Outcome",
-        text:
-          "You eventually reach Australian territory, but your status is unclear. Policies, detention, and legal processes will shape your future.",
-        choices: [],
-      },
-    };
-
-    let currentNodeKey = "start";
-
-    function renderStoryNode(key, appendLog = false, chosenLabel = null) {
-      const node = storyNodes[key];
-      if (!node) return;
-
-      storyTitle.textContent = node.title;
-      storyMeta.textContent = node.meta;
-      storyBody.textContent = node.text;
-
-      storyChoices.innerHTML = "";
-      if (node.choices && node.choices.length > 0) {
-        node.choices.forEach((choice) => {
-          const btn = document.createElement("button");
-          btn.className = "story-choice";
-          btn.textContent = choice.label;
-          btn.addEventListener("click", () => {
-            // Log the choice
-            logStoryChoice(node.title, choice.label, choice.effect);
-            currentNodeKey = choice.next;
-            renderStoryNode(choice.next, false, choice.label);
-          });
-          storyChoices.appendChild(btn);
-        });
-      } else {
-        const endNote = document.createElement("div");
-        endNote.className = "text-small text-muted";
-        endNote.textContent =
-          "This is an outcome node. You can reset the story to explore different paths.";
-        storyChoices.appendChild(endNote);
-      }
-
-      if (appendLog && chosenLabel) {
-        logStoryChoice(node.title, chosenLabel, null);
-      }
-    }
-
-    function logStoryChoice(nodeTitle, choiceLabel, effect) {
-      const entry = document.createElement("div");
-      entry.className = "story-log-entry";
-      entry.innerHTML =
-        '<span class="label">' +
-        nodeTitle +
-        ":</span> you chose <strong>" +
-        choiceLabel +
-        "</strong>." +
-        (effect ? " <span class=\"text-muted\">" + effect + "</span>" : "");
-      storyLog.appendChild(entry);
-      storyLog.scrollTop = storyLog.scrollHeight;
-    }
-
-    function resetStory() {
-      currentNodeKey = "start";
-      storyLog.innerHTML = "";
-      renderStoryNode("start");
-    }
-
-    resetStoryBtn.addEventListener("click", resetStory);
-
-    // Initialise story
-    renderStoryNode("start");
-  </script>
-</body>
-</html>
