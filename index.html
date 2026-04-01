@@ -763,3 +763,275 @@
       </section>
     </main>
   </div>
+<script>
+/* ---------------------------------------------------------
+   NAVIGATION — Switch between sections
+--------------------------------------------------------- */
+const navItems = document.querySelectorAll(".nav-item");
+const sections = document.querySelectorAll(".section");
+
+navItems.forEach(item => {
+  item.addEventListener("click", () => {
+    const target = item.getAttribute("data-section");
+
+    navItems.forEach(i => i.classList.remove("active"));
+    item.classList.add("active");
+
+    sections.forEach(section => section.classList.remove("active"));
+    document.getElementById(`section-${target}`).classList.add("active");
+  });
+});
+
+/* ---------------------------------------------------------
+   PUSH & PULL FACTORS — Dynamic explanations
+--------------------------------------------------------- */
+const factorDetailText = document.getElementById("factorDetailText");
+
+const factorInsights = {
+  conflict: "Conflict and insecurity create constant fear. When combined with even small pull factors, staying becomes difficult.",
+  economy: "Economic collapse pushes people outward, especially when they hear about job shortages abroad.",
+  rights: "Restrictions on rights—especially for women and minorities—make daily life unsafe or limited.",
+  safety: "Australia’s stability is a strong pull, but access depends on visas and pathways.",
+  jobs: "Australia’s labour shortages attract migrants, but qualification recognition can be a barrier.",
+  services: "Education and healthcare access create long-term pull for families."
+};
+
+document.querySelectorAll(".factor-item").forEach(item => {
+  item.addEventListener("click", () => {
+    const key = item.getAttribute("data-key");
+    const type = item.getAttribute("data-type");
+
+    const label = type === "push" ? "Push factor" : "Pull factor";
+    factorDetailText.textContent = `[${label}] ${factorInsights[key]}`;
+  });
+});
+
+/* ---------------------------------------------------------
+   JOB MATCHER — Dropdown logic
+--------------------------------------------------------- */
+const jobSelect = document.getElementById("jobSelect");
+const jobMetaRow = document.getElementById("jobMetaRow");
+const jobDetailText = document.getElementById("jobDetailText");
+
+const jobData = {
+  nursing: {
+    tags: ["High demand", "Regional shortages", "Essential"],
+    detail: "Australia needs nurses, especially in regional areas. Afghan migrants with health backgrounds can fill critical gaps."
+  },
+  engineering: {
+    tags: ["Infrastructure", "Skilled migration"],
+    detail: "Engineers are needed for construction, mining, and major projects. Skilled visas often target this field."
+  },
+  trades: {
+    tags: ["Construction", "Hands-on", "Certification"],
+    detail: "Trades like electricians and plumbers are in demand. Migrants may need local certification."
+  },
+  it: {
+    tags: ["Digital economy", "Remote work"],
+    detail: "IT skills are globally mobile. Afghan tech workers can find strong opportunities in Australia."
+  },
+  education: {
+    tags: ["Schools", "Language support"],
+    detail: "Teachers are needed, especially for language support and multicultural classrooms."
+  }
+};
+
+function updateJobView() {
+  const value = jobSelect.value;
+  const data = jobData[value];
+
+  jobMetaRow.innerHTML = "";
+  data.tags.forEach(tag => {
+    const pill = document.createElement("div");
+    pill.style.padding = "4px 8px";
+    pill.style.borderRadius = "999px";
+    pill.style.background = "var(--accent-soft)";
+    pill.style.border = "1px solid var(--accent)";
+    pill.style.fontSize = "11px";
+    pill.textContent = tag;
+    jobMetaRow.appendChild(pill);
+  });
+
+  jobDetailText.textContent = data.detail;
+}
+
+jobSelect.addEventListener("change", updateJobView);
+updateJobView();
+
+/* ---------------------------------------------------------
+   QUALITY OF LIFE — Indicator switching + bar animation
+--------------------------------------------------------- */
+const qolIndicators = document.querySelectorAll(".qol-indicator");
+const qolChartTitle = document.getElementById("qolChartTitle");
+const qolChartNote = document.getElementById("qolChartNote");
+const qolBarAfghanistan = document.getElementById("qolBarAfghanistan");
+const qolBarAustralia = document.getElementById("qolBarAustralia");
+
+const qolData = {
+  safety: {
+    title: "Safety & security",
+    afghanistan: 15,
+    australia: 85,
+    note: "Afghanistan faces ongoing conflict; Australia is relatively safe."
+  },
+  education: {
+    title: "Education access",
+    afghanistan: 30,
+    australia: 90,
+    note: "Education access—especially for girls—is limited in Afghanistan."
+  },
+  income: {
+    title: "Income & work",
+    afghanistan: 25,
+    australia: 80,
+    note: "Australia offers higher wages and more stable employment."
+  },
+  health: {
+    title: "Health & services",
+    afghanistan: 35,
+    australia: 88,
+    note: "Healthcare access is limited in Afghanistan but strong in Australia."
+  }
+};
+
+function updateQolView(key) {
+  const data = qolData[key];
+
+  qolChartTitle.textContent = data.title;
+  qolChartNote.textContent = data.note;
+
+  requestAnimationFrame(() => {
+    qolBarAfghanistan.style.width = data.afghanistan + "%";
+    qolBarAustralia.style.width = data.australia + "%";
+  });
+}
+
+qolIndicators.forEach(indicator => {
+  indicator.addEventListener("click", () => {
+    qolIndicators.forEach(i => i.classList.remove("active"));
+    indicator.classList.add("active");
+    updateQolView(indicator.getAttribute("data-key"));
+  });
+});
+
+updateQolView("safety");
+
+/* ---------------------------------------------------------
+   INTERACTIVE STORY ENGINE
+--------------------------------------------------------- */
+const storyTitle = document.getElementById("storyTitle");
+const storyMeta = document.getElementById("storyMeta");
+const storyBody = document.getElementById("storyBody");
+const storyChoices = document.getElementById("storyChoices");
+const storyLog = document.getElementById("storyLog");
+
+const storyNodes = {
+  start: {
+    title: "Kabul, late evening",
+    meta: "Decision point 1",
+    text: "Your family is deciding whether to leave Afghanistan due to danger and lack of work.",
+    choices: [
+      { label: "Begin planning to leave", next: "planRoute", effect: "You decide staying is too risky." },
+      { label: "Stay and wait longer", next: "stayLonger", effect: "You hope things improve." }
+    ]
+  },
+  planRoute: {
+    title: "Planning the route",
+    meta: "Decision point 2",
+    text: "You hear about two options: formal visa or irregular route.",
+    choices: [
+      { label: "Apply for a visa", next: "formalVisa", effect: "You begin paperwork." },
+      { label: "Use irregular route", next: "irregularRoute", effect: "You contact a smuggler." }
+    ]
+  },
+  stayLonger: {
+    title: "Staying in Kabul",
+    meta: "Decision point 2",
+    text: "Weeks pass. The situation worsens.",
+    choices: [
+      { label: "Now decide to leave", next: "planRoute", effect: "Danger pushes you to act." },
+      { label: "Stay despite risks", next: "stayRisk", effect: "You remain with extended family." }
+    ]
+  },
+  formalVisa: {
+    title: "Visa process",
+    meta: "Decision point 3",
+    text: "The visa process is slow and uncertain.",
+    choices: [
+      { label: "Persist", next: "visaSuccess", effect: "You wait for approval." },
+      { label: "Switch to irregular route", next: "irregularRoute", effect: "You abandon the process." }
+    ]
+  },
+  irregularRoute: {
+    title: "On the move",
+    meta: "Decision point 3",
+    text: "You travel through multiple countries.",
+    choices: [
+      { label: "Seek NGO help", next: "ngoSupport", effect: "You register for protection." },
+      { label: "Avoid authorities", next: "keepMoving", effect: "You stay hidden." }
+    ]
+  },
+  stayRisk: {
+    title: "Living with risk",
+    meta: "Outcome",
+    text: "You stay in Kabul, facing uncertainty.",
+    choices: []
+  },
+  visaSuccess: {
+    title: "Arrival with visa",
+    meta: "Outcome",
+    text: "Your visa is approved. You arrive safely in Australia.",
+    choices: []
+  },
+  ngoSupport: {
+    title: "Waiting in transit",
+    meta: "Outcome",
+    text: "You wait for resettlement with NGO support.",
+    choices: []
+  },
+  keepMoving: {
+    title: "Uncertain arrival",
+    meta: "Outcome",
+    text: "You reach Australia, but your status is unclear.",
+    choices: []
+  }
+};
+
+function renderStoryNode(key) {
+  const node = storyNodes[key];
+
+  storyTitle.innerHTML = `<strong>${node.title}</strong>`;
+  storyMeta.textContent = node.meta;
+  storyBody.textContent = node.text;
+
+  storyChoices.innerHTML = "";
+
+  if (node.choices.length === 0) {
+    storyChoices.innerHTML = `<div class="text-muted">End of path. Refresh to try again.</div>`;
+    return;
+  }
+
+  node.choices.forEach(choice => {
+    const btn = document.createElement("button");
+    btn.className = "story-choice";
+    btn.textContent = choice.label;
+
+    btn.addEventListener("click", () => {
+      logStoryChoice(node.title, choice.label, choice.effect);
+      renderStoryNode(choice.next);
+    });
+
+    storyChoices.appendChild(btn);
+  });
+}
+
+function logStoryChoice(title, choice, effect) {
+  const entry = document.createElement("div");
+  entry.style.marginBottom = "6px";
+  entry.innerHTML = `<strong>${title}:</strong> You chose <em>${choice}</em>. <span class="text-muted">${effect}</span>`;
+  storyLog.appendChild(entry);
+  storyLog.scrollTop = storyLog.scrollHeight;
+}
+
+renderStoryNode("start");
+</script>
